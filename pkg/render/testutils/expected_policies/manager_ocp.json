@@ -45,8 +45,7 @@
       {
         "action": "Allow",
         "protocol": "TCP",
-        "source": {
-        },
+        "source": {},
         "destination": {
           "ports": [
             9449
@@ -58,18 +57,7 @@
       {
         "action": "Allow",
         "protocol": "TCP",
-        "destination": {
-          "services": {
-            "name": "tigera-api",
-            "namespace": "tigera-system"
-          }
-        }
-      },
-      {
-        "action": "Allow",
-        "protocol": "TCP",
-        "source": {
-        },
+        "source": {},
         "destination": {
           "selector": "k8s-app == 'tigera-secure-es-gateway'",
           "namespaceSelector": "projectcalico.org/name == 'tigera-elasticsearch'",
@@ -125,8 +113,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'openshift-dns'",
-          "selector": "dns.operator.openshift.io/daemonset-dns == 'default'",
+          "namespaceSelector": "projectcalico.org/name == \"openshift-dns\"",
+          "selector": "dns.operator.openshift.io/daemonset-dns == \"default\"",
           "ports": [
             5353
           ]
@@ -136,8 +124,8 @@
         "action": "Allow",
         "protocol": "TCP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'openshift-dns'",
-          "selector": "dns.operator.openshift.io/daemonset-dns == 'default'",
+          "namespaceSelector": "projectcalico.org/name == \"openshift-dns\"",
+          "selector": "dns.operator.openshift.io/daemonset-dns == \"default\"",
           "ports": [
             5353
           ]
@@ -147,7 +135,7 @@
         "action": "Allow",
         "protocol": "TCP",
         "destination": {
-          "selector": "(app == 'prometheus' && prometheus == 'calico-node-prometheus') || (app.kubernetes.io/name == 'prometheus' && prometheus == 'calico-node-prometheus')",
+          "selector": "prometheus == \"calico-node-prometheus\"",
           "namespaceSelector": "projectcalico.org/name == 'tigera-prometheus'",
           "ports": [
             9095

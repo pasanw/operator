@@ -41,8 +41,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'kube-system'",
-          "selector": "k8s-app == 'kube-dns'",
+          "namespaceSelector": "projectcalico.org/name == \"kube-system\"",
+          "selector": "k8s-app == \"kube-dns\"",
           "ports": [
             53
           ]

@@ -38,16 +38,6 @@
         "protocol": "TCP",
         "destination": {
           "services": {
-            "namespace": "default",
-            "name": "openshift-dns"
-          }
-        }
-      },
-      {
-        "action": "Allow",
-        "protocol": "TCP",
-        "destination": {
-          "services": {
             "namespace": "tigera-guardian",
             "name": "tigera-guardian"
           }

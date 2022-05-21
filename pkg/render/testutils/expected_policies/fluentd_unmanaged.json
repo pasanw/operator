@@ -20,7 +20,7 @@
         "protocol": "TCP",
         "source": {
           "selector": "(app == 'prometheus' && prometheus == 'calico-node-prometheus') || (app.kubernetes.io/name == 'prometheus' && prometheus == 'calico-node-prometheus')",
-          "namespaceSelector": "name == 'tigera-prometheus'"
+          "namespaceSelector": "projectcalico.org/name == \"tigera-prometheus\""
         },
         "destination": {
           "ports": [
@@ -33,11 +33,10 @@
       {
         "action": "Deny",
         "protocol": "TCP",
-        "source": {
-        },
+        "source": {},
         "destination": {
           "selector": "k8s-app == 'tigera-secure-es-gateway'",
-          "namespaceSelector": "projectcalico.org/name == 'tigera-elasticsearch'",
+          "namespaceSelector": "projectcalico.org/name == \"tigera-elasticsearch\"",
           "notPorts": [
             5554
           ]
@@ -47,8 +46,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'kube-system'",
-          "selector": "k8s-app == 'kube-dns'",
+          "namespaceSelector": "projectcalico.org/name == \"kube-system\"",
+          "selector": "k8s-app == \"kube-dns\"",
           "ports": [
             53
           ]

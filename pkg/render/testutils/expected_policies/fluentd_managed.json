@@ -8,7 +8,7 @@
   "spec": {
     "tier": "allow-tigera",
     "order": 1,
-    "selector": "k8s-app == 'fluentd-node' || k8s-app == 'fluentd-node-windows'",
+    "selector": "k8s-app == \"fluentd-node\"",
     "types": [
       "Ingress",
       "Egress"
@@ -19,7 +19,7 @@
         "protocol": "TCP",
         "source": {
           "selector": "(app == 'prometheus' && prometheus == 'calico-node-prometheus') || (app.kubernetes.io/name == 'prometheus' && prometheus == 'calico-node-prometheus')",
-          "namespaceSelector": "name == 'tigera-prometheus'"
+          "namespaceSelector": "projectcalico.org/name == \"tigera-prometheus\""
         },
         "destination": {
           "ports": [
@@ -32,11 +32,10 @@
       {
         "action": "Deny",
         "protocol": "TCP",
-        "source": {
-        },
+        "source": {},
         "destination": {
-          "selector": "k8s-app == 'tigera-guardian'",
-          "namespaceSelector": "projectcalico.org/name == 'tigera-guardian'",
+          "selector": "k8s-app == \"tigera-guardian\"",
+          "namespaceSelector": "projectcalico.org/name == \"tigera-guardian\"",
           "notPorts": [
             8080
           ]

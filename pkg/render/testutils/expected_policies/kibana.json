@@ -73,11 +73,10 @@
       {
         "action": "Allow",
         "protocol": "TCP",
-        "source": {
-        },
+        "source": {},
         "destination": {
           "selector": "elasticsearch.k8s.elastic.co/cluster-name == 'tigera-secure'",
-          "namespaceSelector": "projectcalico.org/name == 'tigera-elasticsearch'",
+          "namespaceSelector": "projectcalico.org/name == \"tigera-elasticsearch\"",
           "ports": [
             9200
           ]
@@ -87,8 +86,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'kube-system'",
-          "selector": "k8s-app == 'kube-dns'",
+          "namespaceSelector": "projectcalico.org/name == \"kube-system\"",
+          "selector": "k8s-app == \"kube-dns\"",
           "ports": [
             53
           ]
@@ -111,7 +110,7 @@
             5554
           ],
           "selector": "k8s-app == 'tigera-secure-es-gateway'",
-          "namespaceSelector": "projectcalico.org/name == 'tigera-elasticsearch'"
+          "namespaceSelector": "name == 'tigera-elasticsearch'"
         },
         "protocol": "TCP"
       }

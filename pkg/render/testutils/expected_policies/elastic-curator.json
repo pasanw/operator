@@ -11,8 +11,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'kube-system'",
-          "selector": "k8s-app == 'kube-dns'",
+          "namespaceSelector": "projectcalico.org/name == \"kube-system\"",
+          "selector": "k8s-app == \"kube-dns\"",
           "ports": [
             53
           ]
@@ -28,12 +28,11 @@
           "selector": "k8s-app == 'tigera-secure-es-gateway'"
         },
         "protocol": "TCP",
-        "source": {
-        }
+        "source": {}
       }
     ],
     "order": 1,
-    "selector": "k8s-app == 'elastic-curator'",
+    "selector": "k8s-app == \"elastic-curator\"",
     "tier": "allow-tigera",
     "types": [
       "Ingress",

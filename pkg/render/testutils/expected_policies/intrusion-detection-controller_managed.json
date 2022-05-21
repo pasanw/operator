@@ -41,8 +41,8 @@
         "action": "Allow",
         "protocol": "UDP",
         "destination": {
-          "namespaceSelector": "projectcalico.org/name == 'kube-system'",
-          "selector": "k8s-app == 'kube-dns'",
+          "namespaceSelector": "projectcalico.org/name == \"kube-system\"",
+          "selector": "k8s-app == \"kube-dns\"",
           "ports": [
             53
           ]
@@ -52,8 +52,8 @@
         "action": "Allow",
         "protocol": "TCP",
         "destination": {
-          "selector": "k8s-app == 'tigera-guardian'",
-          "namespaceSelector": "projectcalico.org/name == 'tigera-guardian'",
+          "selector": "k8s-app == \"tigera-guardian\"",
+          "namespaceSelector": "projectcalico.org/name == \"tigera-guardian\"",
           "ports": [
             8080
           ]
