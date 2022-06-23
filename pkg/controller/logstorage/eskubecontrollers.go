@@ -119,7 +119,7 @@ func (r *ReconcileLogStorage) createEsKubeControllers(
 		return reconcile.Result{}, false, err
 	}
 
-	if err := hdler.CreateOrUpdateOrDelete(ctx, esKubeControllerComponents, nil); err != nil {
+	if err := hdler.CRUD(ctx, esKubeControllerComponents, nil); err != nil {
 		reqLogger.Error(err, "Error creating / updating  elasticsearch kube-controllers resource")
 		r.status.SetDegraded("Error creating / updating  elasticsearch kube-controllers resource", err.Error())
 		return reconcile.Result{}, false, err

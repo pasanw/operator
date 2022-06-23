@@ -106,7 +106,7 @@ var _ = Describe("Component handler tests", func() {
 			}},
 		}
 
-		err := handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err := handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("checking that the namespace is created and desired annotations is present")
@@ -154,7 +154,7 @@ var _ = Describe("Component handler tests", func() {
 		}
 
 		By("initiating a merge with Openshift SCC annotations")
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("retrieving the namespace and checking that both current and desired annotations are still present")
@@ -206,7 +206,7 @@ var _ = Describe("Component handler tests", func() {
 		}
 
 		By("initiating a merge with namespace containing modified desired annotation")
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("retrieving the namespace and checking that desired annotation is reconciled, everything else is left as-is")
@@ -244,7 +244,7 @@ var _ = Describe("Component handler tests", func() {
 			}},
 		}
 
-		err := handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err := handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("checking that the UISettings is created and ownerref is not modified")
@@ -261,7 +261,7 @@ var _ = Describe("Component handler tests", func() {
 		ui.Spec.Description = "another test"
 		ui.OwnerReferences[0].Name = "differentowner"
 		fc.objs = []client.Object{ui}
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("checking that the uisettings is updated with description, but ownerref is not modified")
@@ -286,7 +286,7 @@ var _ = Describe("Component handler tests", func() {
 			}},
 		}
 
-		err := handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err := handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("checking that the namespace is created and desired label is present")
@@ -335,7 +335,7 @@ var _ = Describe("Component handler tests", func() {
 		}
 
 		By("initiating a merge with extra label")
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("retrieving the namespace and checking that both current and desired labels are still present")
@@ -387,7 +387,7 @@ var _ = Describe("Component handler tests", func() {
 		}
 
 		By("initiating a merge with namespace containing modified desired label")
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).To(BeNil())
 
 		By("retrieving the namespace and checking that desired label is reconciled, everything else is left as-is")
@@ -460,7 +460,7 @@ var _ = Describe("Component handler tests", func() {
 	)
 
 	DescribeTable("ensuring os node selectors", func(component render.Component, key client.ObjectKey, obj client.Object, expectedNodeSelectors map[string]string) {
-		Expect(handler.CreateOrUpdateOrDelete(ctx, component, sm)).ShouldNot(HaveOccurred())
+		Expect(handler.CRUD(ctx, component, sm)).ShouldNot(HaveOccurred())
 		Expect(c.Get(ctx, key, obj)).ShouldNot(HaveOccurred())
 
 		var nodeSelectors map[string]string
@@ -908,12 +908,12 @@ var _ = Describe("Component handler tests", func() {
 				secret,
 			},
 		}
-		err := handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err := handler.CRUD(ctx, fc, sm)
 		Expect(err).NotTo(HaveOccurred())
 		Expect(c.Get(ctx, client.ObjectKey{Name: "my-secret"}, secret)).NotTo(HaveOccurred())
 		Expect(secret.Type).To(Equal(corev1.SecretTypeOpaque))
 		secret.Type = corev1.SecretTypeTLS
-		err = handler.CreateOrUpdateOrDelete(ctx, fc, sm)
+		err = handler.CRUD(ctx, fc, sm)
 		Expect(err).NotTo(HaveOccurred())
 		Expect(c.Get(ctx, client.ObjectKey{Name: "my-secret"}, secret)).NotTo(HaveOccurred())
 		Expect(secret.Type).To(Equal(corev1.SecretTypeTLS))

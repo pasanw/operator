@@ -516,7 +516,7 @@ func (r *ReconcileLogCollector) Reconcile(ctx context.Context, request reconcile
 	}
 
 	for _, comp := range components {
-		if err := handler.CreateOrUpdateOrDelete(ctx, comp, r.status); err != nil {
+		if err := handler.CRUD(ctx, comp, r.status); err != nil {
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, err
 		}
@@ -553,7 +553,7 @@ func (r *ReconcileLogCollector) Reconcile(ctx context.Context, request reconcile
 		// Create a component handler to manage the rendered component.
 		handler = utils.NewComponentHandler(log, r.client, r.scheme, instance)
 
-		if err := handler.CreateOrUpdateOrDelete(ctx, comp, r.status); err != nil {
+		if err := handler.CRUD(ctx, comp, r.status); err != nil {
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, err
 		}

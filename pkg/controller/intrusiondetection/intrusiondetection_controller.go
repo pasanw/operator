@@ -487,7 +487,7 @@ func (r *ReconcileIntrusionDetection) Reconcile(ctx context.Context, request rec
 	}
 
 	for _, comp := range components {
-		if err := handler.CreateOrUpdateOrDelete(context.Background(), comp, r.status); err != nil {
+		if err := handler.CRUD(context.Background(), comp, r.status); err != nil {
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, err
 		}

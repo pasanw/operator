@@ -46,7 +46,7 @@ import (
 )
 
 type ComponentHandler interface {
-	CreateOrUpdateOrDelete(context.Context, render.Component, status.StatusManager) error
+	CRUD(context.Context, render.Component, status.StatusManager) error
 }
 
 // cr is allowed to be nil in the case we don't want to put ownership on a resource,
@@ -67,7 +67,7 @@ type componentHandler struct {
 	log    logr.Logger
 }
 
-func (c componentHandler) CreateOrUpdateOrDelete(ctx context.Context, component render.Component, status status.StatusManager) error {
+func (c componentHandler) CRUD(ctx context.Context, component render.Component, status status.StatusManager) error {
 	// Before creating the component, make sure that it is ready. This provides a hook to do
 	// dependency checking for the component.
 	cmpLog := c.log.WithValues("component", reflect.TypeOf(component))

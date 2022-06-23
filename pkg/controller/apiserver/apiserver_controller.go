@@ -374,7 +374,7 @@ func (r *ReconcileAPIServer) Reconcile(ctx context.Context, request reconcile.Re
 	}
 
 	for _, component := range components {
-		if err := handler.CreateOrUpdateOrDelete(context.Background(), component, r.status); err != nil {
+		if err := handler.CRUD(context.Background(), component, r.status); err != nil {
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, err
 		}

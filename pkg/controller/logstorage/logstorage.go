@@ -166,7 +166,7 @@ func (r *ReconcileLogStorage) createLogStorage(
 	}
 
 	for _, component := range components {
-		if err := hdler.CreateOrUpdateOrDelete(ctx, component, r.status); err != nil {
+		if err := hdler.CRUD(ctx, component, r.status); err != nil {
 			reqLogger.Error(err, err.Error())
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, false, finalizerCleanup, err

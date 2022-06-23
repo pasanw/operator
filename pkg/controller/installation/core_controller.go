@@ -1269,7 +1269,7 @@ func (r *ReconcileInstallation) Reconcile(ctx context.Context, request reconcile
 	// Create a component handler to create or update the rendered components.
 	handler := utils.NewComponentHandler(log, r.client, r.scheme, instance)
 	for _, component := range components {
-		if err := handler.CreateOrUpdateOrDelete(ctx, component, nil); err != nil {
+		if err := handler.CRUD(ctx, component, nil); err != nil {
 			r.SetDegraded("Error creating / updating resource", err, reqLogger)
 			return reconcile.Result{}, err
 		}
@@ -1580,7 +1580,7 @@ func (r *ReconcileInstallation) updateCRDs(ctx context.Context, variant operator
 	// Specify nil for the CR so no ownership is put on the CRDs. We do this so removing the
 	// Installation CR will not remove the CRDs.
 	handler := utils.NewComponentHandler(log, r.client, r.scheme, nil)
-	if err := handler.CreateOrUpdateOrDelete(ctx, crdComponent, nil); err != nil {
+	if err := handler.CRUD(ctx, crdComponent, nil); err != nil {
 		r.SetDegraded("Error creating / updating CRD resource", err, log)
 		return err
 	}

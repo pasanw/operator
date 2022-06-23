@@ -414,7 +414,7 @@ func (r *ReconcileCompliance) Reconcile(ctx context.Context, request reconcile.R
 	})
 
 	for _, comp := range []render.Component{comp, certificateComponent} {
-		if err := handler.CreateOrUpdateOrDelete(ctx, comp, r.status); err != nil {
+		if err := handler.CRUD(ctx, comp, r.status); err != nil {
 			r.status.SetDegraded("Error creating / updating / deleting resource", err.Error())
 			return reconcile.Result{}, err
 		}
