@@ -2,134 +2,134 @@
 title: master
 components:
   libcalico-go:
-    version: master
+    version: development
   cnx-manager:
     image: tigera/cnx-manager
-    version: master
+    version: development
   voltron:
     image: tigera/voltron
-    version: master
+    version: development
   cnx-apiserver:
     image: tigera/cnx-apiserver
-    version: master
+    version: development
   cnx-queryserver:
     image: tigera/cnx-queryserver
-    version: master
+    version: development
   cnx-kube-controllers:
     image: tigera/kube-controllers
-    version: master
+    version: development
   typha:
     image: tigera/typha
-    version: master
+    version: development
   cnx-node:
     image: tigera/cnx-node
-    version: master
+    version: development
   fluentd:
     image: tigera/fluentd
-    version: master
+    version: development
   fluentd-windows:
     image: tigera/fluentd-windows
-    version: master
+    version: development
   es-proxy:
     image: tigera/es-proxy
-    version: master
+    version: development
   es-gateway:
     image: tigera/es-gateway
-    version: master
+    version: development
   dex:
     image: tigera/dex
-    version: master
+    version: development
   eck-kibana:
     version: 7.16.2
   kibana:
     image: tigera/kibana
-    version: master
+    version: development
   eck-elasticsearch:
     version: 7.16.2
   elasticsearch:
     image: tigera/elasticsearch
-    version: master
+    version: development
   elastic-tsee-installer:
     image: tigera/intrusion-detection-job-installer
-    version: master
+    version: development
   es-curator:
     image: tigera/es-curator
-    version: master
+    version: development
   intrusion-detection-controller:
     image: tigera/intrusion-detection-controller
-    version: master
+    version: development
   anomaly_detection_jobs:
     image: tigera/anomaly_detection_jobs
-    version: master
+    version: development
   anomaly-detection-api:
     image: tigera/anomaly-detection-api
-    version: master
+    version: development
   compliance-controller:
     image: tigera/compliance-controller
-    version: master
+    version: development
   compliance-reporter:
     image: tigera/compliance-reporter
-    version: master
+    version: development
   compliance-snapshotter:
     image: tigera/compliance-snapshotter
-    version: master
+    version: development
   compliance-server:
     image: tigera/compliance-server
-    version: master
+    version: development
   compliance-benchmarker:
     image: tigera/compliance-benchmarker
-    version: master
+    version: development
   guardian:
     image: tigera/guardian
-    version: master
+    version: development
   tigera-cni:
     image: tigera/cni
-    version: master
+    version: development
   cloud-controllers:
     image: tigera/cloud-controllers
-    version: master
+    version: development
   elasticsearch-metrics:
     image: tigera/elasticsearch-metrics
-    version: master
+    version: development
   packetcapture:
     image: tigera/packetcapture
-    version: master
+    version: development
   # coreos-prometheus holds the version of prometheus built for tigera/prometheus,
   # which prometheus operator uses to validate.
   coreos-prometheus:
     version: v2.32.0
   prometheus:
     image: tigera/prometheus
-    version: master
+    version: development
   # coreos-prometheus holds the version of alertmanager built for tigera/alertmanager,
   # which prometheus operator uses to validate.
   coreos-alertmanager:
     version: v0.23.0
   alertmanager:
     image: tigera/alertmanager
-    version: master
+    version: development
   tigera-prometheus-service:
     image: tigera/prometheus-service
-    version: master
+    version: development
   deep-packet-inspection:
     image: tigera/deep-packet-inspection
-    version: master
+    version: development
   windows:
     image: tigera/calico-windows-upgrade
-    version: master
+    version: development
   # The components below are third-party images that have been retagged under
   # quay.io/tigera so all enterprise images come from the same repository and org.
   elasticsearch-operator:
     image: tigera/eck-operator
-    version: master
+    version: development
   eck-elasticsearch-operator:
     version: 1.8.0
   l7-collector:
     image: tigera/l7-collector
-    version: master
+    version: development
   envoy:
     image: tigera/envoy
-    version: master
+    version: development
   dikastes:
     image: tigera/dikastes
-    version: master
+    version: development
