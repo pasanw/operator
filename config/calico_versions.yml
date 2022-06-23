@@ -2,18 +2,18 @@
 title: master
 components:
   libcalico-go:
-    version: development
+    version: base
   typha:
-    version: development
+    version: base
   calico/node:
-    version: development
+    version: base
   calico/cni:
-    version: development
+    version: base
   calico/kube-controllers:
-    version: development
+    version: base
   flexvol:
-    version: development
+    version: base
   calico/apiserver:
-    version: development
+    version: base
   calico/windows-upgrade:
-    version: development
+    version: base

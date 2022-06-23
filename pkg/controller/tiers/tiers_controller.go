@@ -204,7 +204,7 @@ func (r *ReconcileTiers) Reconcile(ctx context.Context, request reconcile.Reques
 	})
 
 	componentHandler := utils.NewComponentHandler(log, r.Client, r.scheme, nil)
-	err = componentHandler.CreateOrUpdateOrDelete(ctx, component, nil)
+	err = componentHandler.CRUD(ctx, component, nil)
 	if err != nil {
 		r.status.SetDegraded("Error creating / updating resource", err.Error())
 		return reconcile.Result{}, err

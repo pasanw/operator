@@ -94,14 +94,14 @@ func (r *ReconcileLogStorage) createEsGateway(
 	}
 
 	if !customerProvidedCert {
-		if err := hdler.CreateOrUpdateOrDelete(ctx, render.NewPassthrough(gatewayCertSecret), r.status); err != nil {
+		if err := hdler.CRUD(ctx, render.NewPassthrough(gatewayCertSecret), r.status); err != nil {
 			reqLogger.Error(err, err.Error())
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, false, err
 		}
 	}
 
-	if err := hdler.CreateOrUpdateOrDelete(ctx, esGatewayComponent, r.status); err != nil {
+	if err := hdler.CRUD(ctx, esGatewayComponent, r.status); err != nil {
 		reqLogger.Error(err, err.Error())
 		r.status.SetDegraded("Error creating / updating resource", err.Error())
 		return reconcile.Result{}, false, err

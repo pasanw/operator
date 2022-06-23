@@ -233,7 +233,7 @@ func (r *ReconcileConnection) Reconcile(ctx context.Context, request reconcile.R
 		return reconcile.Result{}, err
 	}
 
-	if err := ch.CreateOrUpdateOrDelete(ctx, component, r.status); err != nil {
+	if err := ch.CRUD(ctx, component, r.status); err != nil {
 		r.status.SetDegraded("Error creating / updating resource", err.Error())
 		return result, err
 	}

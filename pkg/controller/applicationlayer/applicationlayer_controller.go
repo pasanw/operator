@@ -269,7 +269,7 @@ func (r *ReconcileApplicationLayer) Reconcile(ctx context.Context, request recon
 	}
 
 	if passthroughModSecurityRuleSet {
-		err = ch.CreateOrUpdateOrDelete(ctx, render.NewPassthrough(modSecurityRuleSet), r.status)
+		err = ch.CRUD(ctx, render.NewPassthrough(modSecurityRuleSet), r.status)
 		if err != nil {
 			reqLogger.Error(err, "Error creating / updating resource")
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
@@ -279,7 +279,7 @@ func (r *ReconcileApplicationLayer) Reconcile(ctx context.Context, request recon
 
 	// TODO: when there are more ApplicationLayer options then it will need to be restructured, as each of the
 	// different features will not have their own CreateOrUpdateOrDelete
-	if err = ch.CreateOrUpdateOrDelete(ctx, component, r.status); err != nil {
+	if err = ch.CRUD(ctx, component, r.status); err != nil {
 		reqLogger.Error(err, "Error creating / updating resource")
 		r.status.SetDegraded("Error creating / updating resource", err.Error())
 		return reconcile.Result{}, err

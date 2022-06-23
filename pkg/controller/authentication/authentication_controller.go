@@ -339,7 +339,7 @@ func (r *ReconcileAuthentication) Reconcile(ctx context.Context, request reconci
 	}
 
 	for _, comp := range components {
-		if err = hlr.CreateOrUpdateOrDelete(context.Background(), comp, r.status); err != nil {
+		if err = hlr.CRUD(context.Background(), comp, r.status); err != nil {
 			log.Error(err, "Error creating / updating resource")
 			r.status.SetDegraded("Error creating / updating resource", err.Error())
 			return reconcile.Result{}, err
