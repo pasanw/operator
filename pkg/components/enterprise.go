@@ -18,40 +18,40 @@
 package components
 
 var (
-	EnterpriseRelease string = "master"
+	EnterpriseRelease string = "development"
 
 	ComponentAPIServer = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cnx-apiserver",
 	}
 
 	ComponentComplianceBenchmarker = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/compliance-benchmarker",
 	}
 
 	ComponentComplianceController = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/compliance-controller",
 	}
 
 	ComponentComplianceReporter = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/compliance-reporter",
 	}
 
 	ComponentComplianceServer = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/compliance-server",
 	}
 
 	ComponentComplianceSnapshotter = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/compliance-snapshotter",
 	}
 
 	ComponentDeepPacketInspection = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/deep-packet-inspection",
 	}
 
@@ -66,12 +66,12 @@ var (
 	}
 
 	ComponentElasticTseeInstaller = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/intrusion-detection-job-installer",
 	}
 
 	ComponentElasticsearch = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/elasticsearch",
 	}
 
@@ -81,92 +81,92 @@ var (
 	}
 
 	ComponentElasticsearchOperator = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/eck-operator",
 	}
 
 	ComponentEsCurator = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/es-curator",
 	}
 
 	ComponentEsProxy = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/es-proxy",
 	}
 
 	ComponentESGateway = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/es-gateway",
 	}
 
 	ComponentFluentd = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/fluentd",
 	}
 
 	ComponentFluentdWindows = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/fluentd-windows",
 	}
 
 	ComponentGuardian = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/guardian",
 	}
 
 	ComponentIntrusionDetectionController = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/intrusion-detection-controller",
 	}
 
 	ComponentAnomalyDetectionJobs = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/anomaly_detection_jobs",
 	}
 
 	ComponentAnomalyDetectionAPI = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/anomaly-detection-api",
 	}
 
 	ComponentKibana = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/kibana",
 	}
 
 	ComponentManager = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cnx-manager",
 	}
 
 	ComponentDex = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/dex",
 	}
 
 	ComponentManagerProxy = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/voltron",
 	}
 
 	ComponentPacketCapture = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/packetcapture",
 	}
 
 	ComponentL7Collector = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/l7-collector",
 	}
 
 	ComponentEnvoyProxy = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/envoy",
 	}
 
 	ComponentDikastes = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/dikastes",
 	}
 
@@ -176,12 +176,12 @@ var (
 	}
 
 	ComponentPrometheus = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/prometheus",
 	}
 
 	ComponentTigeraPrometheusService = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/prometheus-service",
 	}
 
@@ -191,47 +191,47 @@ var (
 	}
 
 	ComponentPrometheusAlertmanager = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/alertmanager",
 	}
 
 	ComponentQueryServer = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cnx-queryserver",
 	}
 
 	ComponentTigeraKubeControllers = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/kube-controllers",
 	}
 
 	ComponentTigeraNode = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cnx-node",
 	}
 
 	ComponentTigeraTypha = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/typha",
 	}
 
 	ComponentTigeraCNI = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cni",
 	}
 
 	ComponentCloudControllers = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/cloud-controllers",
 	}
 
 	ComponentElasticsearchMetrics = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/elasticsearch-metrics",
 	}
 
 	ComponentTigeraWindows = component{
-		Version: "master",
+		Version: "development",
 		Image:   "tigera/calico-windows-upgrade",
 	}
 	EnterpriseComponents = []component{
