@@ -78,6 +78,11 @@ var (
 		Image:   "tigera/elasticsearch",
 	}
 
+	ComponentElasticsearchFIPS = component{
+		Version: "master-fips",
+		Image:   "tigera/elasticsearch",
+	}
+
 	ComponentECKElasticsearchOperator = component{
 		Version: "1.8.0",
 	}
