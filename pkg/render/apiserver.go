@@ -1164,7 +1164,7 @@ func (c *apiServerComponent) hostNetwork() bool {
 	if c.cfg.ForceHostNetwork {
 		return true
 	}
-	return apiServerHostNetworkRequired(c.cfg.Installation)
+	return HostNetworkRequired(c.cfg.Installation)
 }
 
 func HostNetworkRequired(installation *operatorv1.InstallationSpec) bool {
@@ -1174,38 +1174,6 @@ func HostNetworkRequired(installation *operatorv1.InstallationSpec) bool {
 		// Workaround the fact that webhooks don't work for non-host-networked pods
 		// when in this networking mode on EKS or TKG, because the control plane nodes don't run
 		// Calico.
-		return true
-	}
-	return false
-}
-
-// apiServerHostNetworkRequired returns true when the calico-apiserver Deployment
-// must run on the host network. This is a superset of HostNetworkRequired: it adds
-// the Docker Enterprise / Mirantis (MKE) + eBPF-dataplane case, which is specific
-// to the *aggregated apiserver* and must NOT bleed into the (shared) webhooks
-// render, so it lives here rather than in HostNetworkRequired.
-//
-// On MKE with the eBPF dataplane, the UCP manager runs the kube-apiserver on the
-// host network but is not part of Calico's BPF service datapath, so its
-// aggregator-routed request to the calico-api backend's overlay pod IP is not
-// routable and the v3.projectcalico.org APIService fails its discovery check
-// (LicenseKey and the rest of projectcalico.org/v3 never become reachable, so the
-// install fails). Host-networking the calico-apiserver moves its Endpoints to the
-// node host IP, which the manager can reach at L3 (kube-apiserver aggregator
-// routing dials the Endpoint address), bypassing the BPF ClusterIP/overlay path.
-// The iptables dataplane is unaffected (kube-proxy programs the ClusterIP on the
-// manager), so this is gated on BPFEnabled(). The host-networked apiserver does
-// not need to (and, thanks to the MKE manager's own NoSchedule taint which
-// TolerateBootstrap does not tolerate, does not) land on a manager node, so it
-// does not contend for UCP's host ports.
-func apiServerHostNetworkRequired(installation *operatorv1.InstallationSpec) bool {
-	if HostNetworkRequired(installation) {
-		return true
-	}
-	if installation.KubernetesProvider.IsDockerEE() &&
-		installation.CNI != nil &&
-		installation.CNI.Type == operatorv1.PluginCalico &&
-		installation.BPFEnabled() {
 		return true
 	}
 	return false
@@ -2512,6 +2480,14 @@ func (c *apiServerComponent) l7AdmissionControllerContainer() corev1.Container {
 				Name:  "DATAPLANE",
 				Value: dataplane,
 			},
+			{
+				// Names of the image pull secrets the webhook adds to injected
+				// pods so the private-registry sidecar images can be pulled. The
+				// applicationlayer sidecar-secrets controller copies these into the
+				// namespaces where injection occurs.
+				Name:  "L7ADMCTRL_PULLSECRETS",
+				Value: strings.Join(pullSecretNames(c.cfg.PullSecrets), ","),
+			},
 		},
 		VolumeMounts: volumeMounts,
 		LivenessProbe: &corev1.Probe{
@@ -2523,9 +2499,33 @@ func (c *apiServerComponent) l7AdmissionControllerContainer() corev1.Container {
 				},
 			},
 		},
+		ReadinessProbe: &corev1.Probe{
+			ProbeHandler: corev1.ProbeHandler{
+				HTTPGet: &corev1.HTTPGetAction{
+					Path:   "/ready",
+					Port:   intstr.FromInt32(l7AdmissionControllerTargetPort),
+					Scheme: corev1.URISchemeHTTPS,
+				},
+			},
+			// Keep this pod out of the calico-api Service endpoints until the
+			// webhook is actually serving, and drop it promptly once it begins
+			// draining on shutdown, so admission calls are not routed to a backend
+			// that cannot answer (the sidecar webhook is FailurePolicy: Fail).
+			PeriodSeconds: 10,
+		},
 	}
 
 	return l7AdmssCtrl
+}
+
+// pullSecretNames returns the names of the given pull secrets, for the
+// L7ADMCTRL_PULLSECRETS env var the sidecar webhook reads.
+func pullSecretNames(secrets []*corev1.Secret) []string {
+	names := make([]string, 0, len(secrets))
+	for _, s := range secrets {
+		names = append(names, s.Name)
+	}
+	return names
 }
 
 // deprecatedResources removes legacy cluster-scoped resources created with the 'tigera' prefix (EE-only).

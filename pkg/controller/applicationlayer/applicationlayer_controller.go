@@ -22,6 +22,7 @@ import (
 	v3 "github.com/tigera/api/pkg/apis/projectcalico/v3"
 	operatorv1 "github.com/tigera/operator/api/v1"
 	"github.com/tigera/operator/pkg/common"
+	"github.com/tigera/operator/pkg/controller/applicationlayer/sidecar"
 	"github.com/tigera/operator/pkg/controller/gatewayapi"
 	"github.com/tigera/operator/pkg/controller/options"
 	"github.com/tigera/operator/pkg/controller/status"
@@ -68,6 +69,13 @@ func Add(mgr manager.Manager, opts options.ControllerOptions) error {
 	}
 
 	go utils.WaitToAddLicenseKeyWatch(c, opts.K8sClientset, log, licenseAPIReady)
+
+	// Run the sidecar pull-secret controller alongside this one: it copies the
+	// pull secret into namespaces that have sidecar-injected pods so their
+	// private-registry images can be pulled.
+	if err := sidecar.Add(mgr, opts); err != nil {
+		return err
+	}
 
 	return add(mgr, c)
 }

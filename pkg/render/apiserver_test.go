@@ -501,6 +501,16 @@ var _ = Describe("API server rendering tests (Calico Enterprise)", func() {
 		Expect(container.Env[4].Name).To(Equal("L7ADMCTRL_LISTENADDR"))
 		Expect(container.Env[4].Value).To(Equal(":6443"))
 
+		// The webhook must expose a readiness probe so the pod only joins the
+		// calico-api endpoints once it is serving, and drops out promptly while it
+		// drains on shutdown (the sidecar webhook is FailurePolicy: Fail).
+		Expect(container.LivenessProbe).NotTo(BeNil())
+		Expect(container.LivenessProbe.HTTPGet.Path).To(Equal("/live"))
+		Expect(container.ReadinessProbe).NotTo(BeNil())
+		Expect(container.ReadinessProbe.HTTPGet.Path).To(Equal("/ready"))
+		Expect(container.ReadinessProbe.HTTPGet.Port.IntValue()).To(Equal(6443))
+		Expect(container.ReadinessProbe.HTTPGet.Scheme).To(BeEquivalentTo("HTTPS"))
+
 		// Check the Service configuration
 		svc := rtest.GetResource(resources, "calico-api", "calico-system", "", "v1", "Service").(*corev1.Service)
 		var servicePort corev1.ServicePort
@@ -2347,56 +2357,6 @@ var _ = Describe("API server rendering tests (Calico)", func() {
 		deploy, ok := rtest.GetResource(resources, "calico-apiserver", "calico-system", "apps", "v1", "Deployment").(*appsv1.Deployment)
 		Expect(ok).To(BeTrue())
 		Expect(deploy.Spec.Template.Spec.HostNetwork).To(BeTrue())
-	})
-
-	It("should render host networked on Docker Enterprise (MKE) with Calico CNI and the eBPF dataplane", func() {
-		// On MKE + eBPF the UCP manager's aggregator cannot reach the calico-api
-		// backend over the BPF ClusterIP/overlay path, so the apiserver must be
-		// host-networked (reachable via node host IP). See apiServerHostNetworkRequired.
-		cfg.Installation.KubernetesProvider = operatorv1.ProviderDockerEE
-		cfg.Installation.CNI = &operatorv1.CNISpec{Type: operatorv1.PluginCalico}
-		bpf := operatorv1.LinuxDataplaneBPF
-		cfg.Installation.CalicoNetwork = &operatorv1.CalicoNetworkSpec{LinuxDataplane: &bpf}
-
-		component, err := render.APIServer(cfg)
-		Expect(err).To(BeNil(), "Expected APIServer to create successfully %s", err)
-		resources, _ := component.Objects()
-
-		deploy, ok := rtest.GetResource(resources, "calico-apiserver", "calico-system", "apps", "v1", "Deployment").(*appsv1.Deployment)
-		Expect(ok).To(BeTrue())
-		Expect(deploy.Spec.Template.Spec.HostNetwork).To(BeTrue())
-		Expect(deploy.Spec.Template.Spec.DNSPolicy).To(Equal(corev1.DNSClusterFirstWithHostNet))
-	})
-
-	It("should NOT render host networked on Docker Enterprise with Calico CNI and the iptables dataplane", func() {
-		// iptables keeps kube-proxy programming the ClusterIP on the manager, so no host-network needed.
-		cfg.Installation.KubernetesProvider = operatorv1.ProviderDockerEE
-		cfg.Installation.CNI = &operatorv1.CNISpec{Type: operatorv1.PluginCalico}
-		ipt := operatorv1.LinuxDataplaneIptables
-		cfg.Installation.CalicoNetwork = &operatorv1.CalicoNetworkSpec{LinuxDataplane: &ipt}
-
-		component, err := render.APIServer(cfg)
-		Expect(err).To(BeNil(), "Expected APIServer to create successfully %s", err)
-		resources, _ := component.Objects()
-
-		deploy, ok := rtest.GetResource(resources, "calico-apiserver", "calico-system", "apps", "v1", "Deployment").(*appsv1.Deployment)
-		Expect(ok).To(BeTrue())
-		Expect(deploy.Spec.Template.Spec.HostNetwork).To(BeFalse())
-	})
-
-	It("should NOT render host networked on Docker Enterprise + eBPF when the CNI is not Calico", func() {
-		cfg.Installation.KubernetesProvider = operatorv1.ProviderDockerEE
-		cfg.Installation.CNI = &operatorv1.CNISpec{Type: operatorv1.PluginGKE}
-		bpf := operatorv1.LinuxDataplaneBPF
-		cfg.Installation.CalicoNetwork = &operatorv1.CalicoNetworkSpec{LinuxDataplane: &bpf}
-
-		component, err := render.APIServer(cfg)
-		Expect(err).To(BeNil(), "Expected APIServer to create successfully %s", err)
-		resources, _ := component.Objects()
-
-		deploy, ok := rtest.GetResource(resources, "calico-apiserver", "calico-system", "apps", "v1", "Deployment").(*appsv1.Deployment)
-		Expect(ok).To(BeTrue())
-		Expect(deploy.Spec.Template.Spec.HostNetwork).To(BeFalse())
 	})
 
 	Context("With APIServer Deployment overrides", func() {

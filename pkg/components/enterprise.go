@@ -21,9 +21,12 @@ var (
 	EnterpriseRelease string = "master"
 
 	ComponentTigeraCalico = Component{
-		Version:   "master",
+		// [6305 loop-2 VALIDATION OVERRIDE — not for PR] point the combined calico image
+		// (runs l7-admission-controller) at the locally-built image carrying the
+		// graceful-shutdown + injector-imagePullSecrets changes.
+		Version:   "6305-loop2f-20260729",
 		Image:     "calico",
-		Registry:  "",
+		Registry:  "gcr.io/tigera-dev/pasan/claude",
 		imagePath: "",
 		variant:   enterpriseVariant,
 	}
@@ -189,9 +192,11 @@ var (
 	}
 
 	ComponentTigeraNode = Component{
-		Version:   "master",
+		// [6305 loop-2 VALIDATION OVERRIDE — not for PR] point calico-node (felix) at the
+		// locally-built image carrying the conntrack.h return-path RPF fix.
+		Version:   "6305-loop2f-20260729",
 		Image:     "node",
-		Registry:  "",
+		Registry:  "gcr.io/tigera-dev/pasan/claude",
 		imagePath: "",
 		variant:   enterpriseVariant,
 	}
